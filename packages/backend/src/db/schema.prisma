@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid()) @db.Uuid
+  name         String
+  email        String        @unique
+  phone        String
+  address      String
+  password     String
+  hashed_rt    String?
+  isVerified   Boolean       @default(false)
+  role         Role          @default(USER)
+  orders       Order[]
+  verifyTokens VerifyToken[]
+}
+
+model Session {
+  id          String @id @default(uuid()) @db.Uuid
+  userId      String
+  accessToken String
+}
+
+model VerifyToken {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  token  Int
+  email  String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id           String        @id @default(uuid()) @db.Uuid
+  name         String
+  description  String
+  stock        Int
+  price        Int
+  category     String
+  orderDetails OrderDetail[]
+}
+
+model Order {
+  id              String         @id @default(uuid()) @db.Uuid
+  userId          String         @db.Uuid
+  total_amount    Int            @default(0)
+  payment_status  PaymentStatus  @default(PENDING)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now())
+  delivery_status DeliveryStatus @default(PENDING)
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderDetails    OrderDetail[]
+  payments        Payment[]
+}
+
+model OrderDetail {
+  id                String  @id @default(uuid()) @db.Uuid
+  order_id          String  @db.Uuid
+  product_id        String  @db.Uuid
+  quantity          Int
+  price_at_purchase Int
+  order             Order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product           Product @relation(fields: [product_id], references: [id])
+}
+
+model Payment {
+  id             String        @id @default(uuid()) @db.Uuid
+  order_id       String        @db.Uuid
+  order          Order         @relation(fields: [order_id], references: [id])
+  total_amount   Int
+  payment_status PaymentStatus
+  transaction_id String        @db.Uuid
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum PaymentStatus {
+  COMPLETE
+  FAILED
+  PENDING
+}
+
+enum DeliveryStatus {
+  PENDING
+  IN_TRANSIT
+  DELIVERED
+}
