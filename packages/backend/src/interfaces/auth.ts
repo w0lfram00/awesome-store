@@ -1,5 +1,5 @@
+import { Role } from '@/db/generated/client/enums';
 import { OmitType, PartialType } from '@nestjs/mapped-types';
-import { Role } from '@prisma/client';
 import { IsEmail, IsPhoneNumber, IsString, Length } from 'class-validator';
 
 export class RegisterUserDto {

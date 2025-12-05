@@ -27,8 +27,6 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
 		if (!refreshToken) {
 			throw createHttpError(403, 'Unauthorized');
 		}
-		console.log(refreshToken);
-
 		return { ...payload, refreshToken };
 	}
 }

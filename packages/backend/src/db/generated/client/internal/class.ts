@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "D:\\camp-12-11\\packages\\backend\\src\\db\\generated\\client",
+      "value": "D:\\awesome-store\\packages\\backend\\src\\db\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -37,7 +37,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\camp-12-11\\packages\\backend\\src\\db\\schema.prisma",
+    "sourceFilePath": "D:\\awesome-store\\packages\\backend\\src\\db\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../..",
@@ -47,6 +47,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
